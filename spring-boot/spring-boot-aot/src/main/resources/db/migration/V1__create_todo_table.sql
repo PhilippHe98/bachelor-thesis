@@ -1,0 +1,5 @@
+CREATE TABLE todo
+(
+    id BIGSERIAL NOT NULL,
+    description VARCHAR(255) NOT NULL
+)
