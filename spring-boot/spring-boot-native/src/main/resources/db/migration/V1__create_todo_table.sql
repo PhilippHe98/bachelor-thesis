@@ -1,5 +1,6 @@
 CREATE TABLE todo
 (
     id BIGSERIAL NOT NULL,
-    description VARCHAR(255) NOT NULL
+    description VARCHAR(255) NOT NULL,
+    CONSTRAINT pk_todo PRIMARY KEY (id)
 )
