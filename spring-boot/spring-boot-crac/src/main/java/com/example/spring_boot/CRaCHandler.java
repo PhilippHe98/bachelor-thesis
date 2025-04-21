@@ -7,7 +7,6 @@ import org.flywaydb.core.Flyway;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.stereotype.Component;
-
 import javax.sql.DataSource;
 import java.util.Arrays;
 
