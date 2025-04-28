@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# cleanup
+docker container rm crac-container
+
 docker build -f Dockerfile -t micronaut-crac-checkpoint:1.0 .
 docker run -d --cap-add CHECKPOINT_RESTORE --cap-add SYS_PTRACE --name crac-container --network micronaut-network micronaut-crac-checkpoint:1.0
 sleep 4

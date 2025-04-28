@@ -1,35 +1,24 @@
 package com.example;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import io.micronaut.crac.OrderedResource;
 import jakarta.inject.Singleton;
 import org.crac.Context;
 import org.crac.Resource;
-import org.flywaydb.core.Flyway;
+import org.crac.management.CRaCMXBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class CRaCHandler implements OrderedResource {
+    private static final Logger LOG = LoggerFactory.getLogger(CRaCHandler.class);
 
     @Override
     public void beforeCheckpoint(Context<? extends Resource> context) throws Exception {
-        System.out.println("HALLO VOR DEM CHECKPOINT");
     }
 
+    // https://crac.github.io/openjdk-builds/javadoc/api/jdk.management/jdk/crac/management/CRaCMXBean.html for uptime
     @Override
     public void afterRestore(Context<? extends Resource> context) throws Exception {
-        System.out.println("HALLO NACH DEM CHECKPOINT");
-
-        HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:postgresql://postgres:5432/postgres");
-        hikariConfig.setUsername("postgres");
-        hikariConfig.setPassword("postgres");
-
-        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
-
-        Flyway flyway = Flyway.configure()
-                .dataSource("jdbc:postgresql://postgres:5432/postgres","postgres","postgres")
-                .load();
-        flyway.migrate();
+        LOG.info("Application restored from CRaC checkpoint. Startup time since restore: {} ms", CRaCMXBean.getCRaCMXBean().getUptimeSinceRestore());
     }
 }

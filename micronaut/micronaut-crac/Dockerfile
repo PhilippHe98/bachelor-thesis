@@ -5,4 +5,4 @@ COPY ${JAR_FILE} application.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-XX:CRaCCheckpointTo=/checkpoint","-XX:+UseParallelGC","-XX:MaxRAMPercentage=75","-XX:MinRAMPercentage=75","-jar","application.jar"]
+ENTRYPOINT ["java","-XX:CRaCCheckpointTo=/checkpoint","-XX:+UseParallelGC","-XX:MaxRAMPercentage=75","-XX:MinRAMPercentage=75","-jar","application.jar"]
