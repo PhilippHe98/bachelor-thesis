@@ -1,9 +1,21 @@
 FROM bellsoft/liberica-runtime-container:jdk-21-cds-musl
-WORKDIR /application
-ARG JAR_FILE=build/libs/*-all.jar
-COPY ${JAR_FILE} application.jar
-# layering like spring boot does not seem to work
-# unlike spring boot micronaut has no command to exit the application on refresh, so the logic is tied to code via profile
+WORKDIR /home/app
+
+COPY --link build/docker/optimized/layers/libs /home/app/libs
+COPY --link build/docker/optimized/layers/app /home/app/
+
+# for non aot optimized images
+# there seems to be an issue with non empty folders which do not contain only jar files
+#COPY --link build/docker/main/layers/resources /home/app/resources
+
 RUN java -XX:ArchiveClassesAtExit=application.jsa -Dmicronaut.environments=cds -jar application.jar
 
-ENTRYPOINT ["java","-XX:SharedArchiveFile=application.jsa","-Xshare:on","-XX:+UseParallelGC","-XX:MaxRAMPercentage=75","-XX:MinRAMPercentage=75","-jar","application.jar"]
+EXPOSE 8080
+
+ENTRYPOINT ["java", \
+ "-XX:SharedArchiveFile=application.jsa", \
+ "-Xshare:on", \
+ "-XX:+UseParallelGC", \
+ "-XX:MaxRAMPercentage=75", \
+ "-XX:MinRAMPercentage=75", \
+ "-jar","application.jar"]

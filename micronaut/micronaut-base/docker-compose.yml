@@ -17,11 +17,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
   app:
+    image: test:1.0
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-
     depends_on:
       - db

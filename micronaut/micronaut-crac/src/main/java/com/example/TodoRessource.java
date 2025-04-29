@@ -16,24 +16,24 @@ import java.util.List;
 @ExecuteOn(TaskExecutors.BLOCKING)
 @Controller("/todo")
 public class TodoRessource {
-    private final Provider<TodoRepository> todoRepositoryProvider;
+    private final TodoRepository todoRepository;
 
-    public TodoRessource(Provider<TodoRepository> todoRepositoryProvider) {
-        this.todoRepositoryProvider = todoRepositoryProvider;
+    public TodoRessource(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
     }
 
     @Get("/{id}")
     public Todo getTodo(@PathVariable("id") long id) {
-        return todoRepositoryProvider.get().findById(id).orElse(null);
+        return todoRepository.findById(id).orElse(null);
     }
 
     @Get("/all")
     public List<Todo> getAllTodos() {
-        return todoRepositoryProvider.get().findAll();
+        return todoRepository.findAll();
     }
 
     @Post
     public void addTodo(@Body Todo todo) {
-        todoRepositoryProvider.get().save(todo);
+        todoRepository.save(todo);
     }
 }
