@@ -1,6 +1,6 @@
 #!/bin/bash
 docker network create micronaut-network
-docker run --name postgres \
+docker run --rm --name postgres2 \
   --network micronaut-network \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=postgres \
