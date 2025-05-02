@@ -13,8 +13,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
-  build:
+
+  # build the spring boot jvm versions
+  build-spring-boot-base:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,7 +28,6 @@ jobs:
           - spring-boot/spring-boot-cds
           - spring-boot/spring-boot-crac
           - spring-boot/spring-boot-aot
-          - spring-boot/spring-boot-native
           
     steps:
     - uses: actions/checkout@v4
@@ -35,5 +39,18 @@ jobs:
         
     - name: Build Project
       run:  |
-        cd ${{ matrix.project-dir }}
+        cd spring-boot/spring-boot-base
         ./gradlew build
+
+    - name: Log in to the Container registry
+      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata (tags, labels) for Docker
+      id: meta
+      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      with:
+        images: ${{ env.REGISTRY }}/${{ matrix.project-dir }}
