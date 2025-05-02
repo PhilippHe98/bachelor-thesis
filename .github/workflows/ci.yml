@@ -24,6 +24,7 @@ jobs:
           - spring-boot/spring-boot-crac
           - spring-boot/spring-boot-aot
           - spring-boot/spring-boot-native
+          
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
@@ -31,12 +32,7 @@ jobs:
       with:
         java-version: '21'
         distribution: 'liberica'
-
-    # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
-    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-
+        
     - name: Build Project
       run:  |
         cd ${{ matrix.project-dir }}
