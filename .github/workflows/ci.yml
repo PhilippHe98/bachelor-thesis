@@ -39,7 +39,7 @@ jobs:
         
     - name: Build Project
       run:  |
-        cd spring-boot/spring-boot-base
+        cd ${{ matrix.project-dir }}
         ./gradlew build
 
     - name: Log in to the Container registry
