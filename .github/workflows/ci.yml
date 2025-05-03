@@ -17,9 +17,8 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-
   # build the spring boot jvm versions
-  build-spring-boot-base:
+  build-spring-boot-jvm-versions:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,6 +27,12 @@ jobs:
           - spring-boot/spring-boot-cds
           - spring-boot/spring-boot-crac
           - spring-boot/spring-boot-aot
+          
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
           
     steps:
     - uses: actions/checkout@v4
