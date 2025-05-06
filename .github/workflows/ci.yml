@@ -104,15 +104,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - project-dir: micronaut/micronaut-base
-            dockerfile: Dockerfile
-          - project-dir: micronaut/micronaut-cds
-            dockerfile: Dockerfile
-          - project-dir: micronaut/micronaut-crac
-            dockerfile: Dockerfile
-          - project-dir: micronaut/micronaut-aot
-            dockerfile: Dockerfile
+        project-dir:
+          - micronaut/micronaut-base
+          - micronaut/micronaut-cds
+          - micronaut/micronaut-crac
+          - micronaut/micronaut-aot
     permissions:
       contents: read
       packages: write
