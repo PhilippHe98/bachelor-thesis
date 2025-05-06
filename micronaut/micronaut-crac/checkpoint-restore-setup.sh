@@ -10,4 +10,4 @@ docker exec crac-container jcmd application.jar JDK.checkpoint
 sleep 4
 docker commit --change='ENTRYPOINT ["java", "-XX:CRaCRestoreFrom=/checkpoint"]' crac-container micronaut-crac-restore:1.0
 docker rm -f crac-container
-docker run --rm -p 8080:8080 -e JDBC_URL=jdbc:postgresql://postgres2:5432/postgres --cap-add CHECKPOINT_RESTORE --cap-add SYS_PTRACE --name crac-restore-container --network micronaut-network micronaut-crac-restore:1.0
+docker run --rm -p 8080:8080 --cap-add CHECKPOINT_RESTORE --cap-add SYS_PTRACE --name crac-restore-container --network micronaut-network micronaut-crac-restore:1.0

@@ -1,6 +1,5 @@
 plugins {
     id("io.micronaut.application") version "4.5.0"
-    id("com.gradleup.shadow") version "8.3.6"
     id("io.micronaut.aot") version "4.5.0"
 }
 
@@ -27,7 +26,6 @@ dependencies {
     testImplementation("io.micronaut:micronaut-http-client")
 }
 
-
 application {
     mainClass = "com.example.Application"
 }
@@ -49,8 +47,8 @@ micronaut {
     aot {
         // Please review carefully the optimizations enabled below
         // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
-        optimizeServiceLoading = false
-        convertYamlToJava = false
+        optimizeServiceLoading = true
+        convertYamlToJava = true
         precomputeOperations = true
         cacheEnvironment = true
         optimizeClassLoading = true
@@ -64,13 +62,3 @@ micronaut {
 tasks.named("dockerfileNative") {
     jdkVersion = "21"
 }
-
-graalvmNative {
-    binaries {
-        main {
-            imageName.set('mn-graalvm-application')
-        }
-    }
-}
-
-

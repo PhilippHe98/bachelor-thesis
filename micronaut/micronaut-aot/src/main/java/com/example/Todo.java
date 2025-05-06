@@ -1,6 +1,5 @@
 package com.example;
 
-import io.micronaut.configuration.hibernate.jpa.proxy.GenerateProxy;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +11,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Serdeable
 @Entity
-@GenerateProxy
-@Table(name = "/todo")
+@Table(name = "todo")
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
