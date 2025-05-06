@@ -141,6 +141,7 @@ jobs:
         with:
           context: ./${{ matrix.project-dir }}
           file: ./${{ matrix.project-dir }}/Dockerfile
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
