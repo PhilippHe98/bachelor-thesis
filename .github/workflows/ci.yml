@@ -93,8 +93,8 @@ jobs:
         id: push
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
-          context: ./${{ matrix.project-dir }}
-          file: ./${{ matrix.project-dir }}/Dockerfile
+          context: ./spring-boot/spring-boot-native
+          file: ./spring-boot/spring-boot-native/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -144,8 +144,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./${{ matrix.project-dir }}
-          file: ./${{ matrix.project-dir }}/${{ matrix.dockerfile }}
-          push: true
+          file: ./${{ matrix.project-dir }}/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
