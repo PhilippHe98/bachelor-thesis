@@ -6,13 +6,11 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
 name: Java CI with Gradle
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -23,18 +21,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project-dir:
-          - spring-boot/spring-boot-base
-          - spring-boot/spring-boot-cds
-          - spring-boot/spring-boot-crac
-          - spring-boot/spring-boot-aot
-          
+        include:
+          - project-dir: spring-boot/spring-boot-base
+            dockerfile: Dockerfile
+          - project-dir: spring-boot/spring-boot-cds
+            dockerfile: Dockerfile
+          - project-dir: spring-boot/spring-boot-crac
+            dockerfile: Dockerfile
+          - project-dir: spring-boot/spring-boot-aot
+            dockerfile: Dockerfile
+          - project-dir: spring-boot/spring-boot-aot
+            dockerfile: Dockerfile-aot-cds
     permissions:
       contents: read
       packages: write
       attestations: write
       id-token: write
-          
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
@@ -42,33 +44,144 @@ jobs:
       with:
         java-version: '21'
         distribution: 'liberica'
-        
     - name: Build Project
       run:  |
         cd ${{ matrix.project-dir }}
         ./gradlew build
-
     - name: Log in to the Container registry
       uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Extract metadata (tags, labels) for Docker
       id: meta
       uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
       with:
         images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.project-dir }}
-
     - name: Build and push Docker image
       id: push
       uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
       with:
         context: ./${{ matrix.project-dir }}
-        file: ./${{ matrix.project-dir }}/Dockerfile
+        file: ./${{ matrix.project-dir }}/${{ matrix.dockerfile }}
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
-    
+  build-and-push-spring-boot-naitve:
+    runs-on: Ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/spring-boot-native
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./${{ matrix.project-dir }}
+          file: ./${{ matrix.project-dir }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  # Micronaut
+  build-micronaut-jvm-versions:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - project-dir: micronaut/micronaut-base
+            dockerfile: Dockerfile
+          - project-dir: micronaut/micronaut-cds
+            dockerfile: Dockerfile
+          - project-dir: micronaut/micronaut-crac
+            dockerfile: Dockerfile
+          - project-dir: micronaut/micronaut-aot
+            dockerfile: Dockerfile
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'liberica'
+      - name: Build Project
+        run: |
+          cd ${{ matrix.project-dir }}
+          ./gradlew build
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.project-dir }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./${{ matrix.project-dir }}
+          file: ./${{ matrix.project-dir }}/${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  build-and-push-micronaut-native:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project-dir:
+          - micronaut/micronaut-base
+          - micronaut/micronaut-aot
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ matrix.project-dir }}-native
+
+      - name: Build and push native Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./${{ matrix.project-dir }}
+          file: ./${{ matrix.project-dir }}/Dockerfile-native
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
