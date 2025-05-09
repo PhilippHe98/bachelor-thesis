@@ -18,6 +18,6 @@ COPY --from=builder /builder/extracted/application/ ./
 # Execute the CDS training run
 RUN java -XX:ArchiveClassesAtExit=application.jsa -Dspring.context.exit=onRefresh -jar application.jar --spring.profiles.active=cds
 # Below are additional jvm flags to ensure an optimized jvm environment for containers and kubernetes
-ENTRYPOINT ["java","-XX:SharedArchiveFile=application.jsa","-Xshare:on","-XX:+UseParallelGC","-XX:MaxRAMPercentage=75","-XX:MinRAMPercentage=75","-jar","application.jar"]
+ENTRYPOINT ["java","-XX:SharedArchiveFile=application.jsa","-Xshare:on","-jar","application.jar"]
 # -Xshare:on which prints an error message and exits if CDS can’t be enabled.
 #,"-Xmx4g","-XX:ActiveProcessorCount=2" could be used later

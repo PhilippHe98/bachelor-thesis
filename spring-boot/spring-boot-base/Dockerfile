@@ -27,5 +27,5 @@ COPY --from=builder /builder/extracted/application/ ./
 # This jar only contains application code and references to the extracted jar files
 # This layout is efficient to start up and CDS friendly
 # Below are additional jvm flags to ensure an optimized jvm environment for containers and kubernetes
-ENTRYPOINT ["java","-XX:+UseParallelGC","-XX:MaxRAMPercentage=75","-XX:MinRAMPercentage=75","-jar","application.jar"]
+ENTRYPOINT ["java","-jar","application.jar"]
 #,"-Xmx4g","-XX:ActiveProcessorCount=2" could be used later

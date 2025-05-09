@@ -15,4 +15,4 @@ COPY --from=builder /builder/extracted/dependencies/ ./
 COPY --from=builder /builder/extracted/spring-boot-loader/ ./
 COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
 COPY --from=builder /builder/extracted/application/ ./
-ENTRYPOINT ["java","-Dspring.aot.enabled=true","-XX:+UseParallelGC","-XX:MaxRAMPercentage=75","-XX:MinRAMPercentage=75","-jar","application.jar"]
+ENTRYPOINT ["java","-Dspring.aot.enabled=true","-jar","application.jar"]

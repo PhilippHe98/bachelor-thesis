@@ -12,10 +12,4 @@ RUN java -XX:ArchiveClassesAtExit=application.jsa -Dmicronaut.environments=cds -
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", \
- "-XX:SharedArchiveFile=application.jsa", \
- "-Xshare:on", \
- "-XX:+UseParallelGC", \
- "-XX:MaxRAMPercentage=75", \
- "-XX:MinRAMPercentage=75", \
- "-jar","application.jar"]
+ENTRYPOINT ["java","-XX:SharedArchiveFile=application.jsa","-Xshare:on","-jar","application.jar"]
