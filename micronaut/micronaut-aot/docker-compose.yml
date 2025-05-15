@@ -1,5 +1,5 @@
 services:
-  db:
+  postgres:
     image: postgres
     restart: always
     # set shared memory limit when using docker-compose
@@ -23,4 +23,4 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      - postgres

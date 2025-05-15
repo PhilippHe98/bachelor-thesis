@@ -1,5 +1,5 @@
 services:
-  db:
+  postgres:
     image: postgres
     restart: always
     # set shared memory limit when using docker-compose
@@ -17,8 +17,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
   app:
-    image: 'spring-boot-native:0.0.1-SNAPSHOT'
+    image: test
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      - postgres

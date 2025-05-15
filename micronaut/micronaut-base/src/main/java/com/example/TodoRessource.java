@@ -20,7 +20,7 @@ public class TodoRessource {
 
     @Get("/{id}")
     public Todo getTodo(@PathVariable("id") long id) {
-        return todoRepository.findById(id).orElse(null);
+        return todoRepository.findById(id).orElseThrow();
     }
 
     @Get("/all")

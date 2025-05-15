@@ -3,7 +3,7 @@
 # cleanup
 docker container rm crac-container
 
-docker build -f Dockerfile-crac -t micronaut-crac-checkpoint:1.0 .
+docker build -f Dockerfile -t micronaut-crac-checkpoint:1.0 .
 docker run -d -p 8080:8080 -e JDBC_URL=jdbc:postgresql://postgres:5432/postgres --cap-add CHECKPOINT_RESTORE --cap-add SYS_PTRACE --name crac-container --network micronaut-network micronaut-crac-checkpoint:1.0
 sleep 4
 docker exec crac-container jcmd application.jar JDK.checkpoint

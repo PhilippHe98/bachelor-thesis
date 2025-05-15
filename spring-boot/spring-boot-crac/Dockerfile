@@ -15,4 +15,4 @@ COPY --from=builder /builder/extracted/spring-boot-loader/ ./
 COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
 COPY --from=builder /builder/extracted/application/ ./
 
-ENTRYPOINT ["java","-Dspring.context.checkpoint=onRefresh","-XX:CRaCCheckpointTo=/checkpoint","-XX:+UseParallelGC","-XX:MaxRAMPercentage=75","-XX:MinRAMPercentage=75","-jar","application.jar"]
+ENTRYPOINT ["java","-XX:CRaCCheckpointTo=/checkpoint","-jar","application.jar"]

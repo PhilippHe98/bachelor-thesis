@@ -23,7 +23,7 @@ public class TodoRessource {
 
     @GetMapping("/{id}")
     public Todo getTodo(@PathVariable("id") long id) {
-        return todoRepository.findById(id);
+        return todoRepository.findById(id).orElseThrow();
     }
 
     @GetMapping("/all")

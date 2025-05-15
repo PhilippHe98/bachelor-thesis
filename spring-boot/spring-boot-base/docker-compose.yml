@@ -17,10 +17,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
   app:
+    image: ghcr.io/philipphe98/bachelor-thesis/spring-boot-base:main
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8081:8080"
+      - "8080:8080"
     depends_on:
       - postgres

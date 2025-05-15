@@ -7,4 +7,4 @@ RUN ./gradlew nativeCompile
 FROM bellsoft/alpaquita-linux-base:glibc
 WORKDIR /application
 COPY --from=builder /builder/build/native/nativeCompile/spring-boot-native spring-boot-native
-CMD ["./spring-boot-native"]
+ENTRYPOINT ["./spring-boot-native"]

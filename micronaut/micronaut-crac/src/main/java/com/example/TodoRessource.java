@@ -8,7 +8,6 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.runtime.context.scope.Refreshable;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
-import jakarta.inject.Provider;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class TodoRessource {
 
     @Get("/{id}")
     public Todo getTodo(@PathVariable("id") long id) {
-        return todoRepository.findById(id).orElse(null);
+        return todoRepository.findById(id).orElseThrow();
     }
 
     @Get("/all")
