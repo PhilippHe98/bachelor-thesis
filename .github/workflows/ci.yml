@@ -30,10 +30,6 @@ jobs:
             dockerfile: Dockerfile
             imagename: spring-boot-aot
             
-          - project-dir: spring-boot/spring-boot-aot
-            dockerfile: Dockerfile-aot-cds
-            imagename: spring-boot-aot-cds
-            
           - project-dir: micronaut/micronaut-base
             dockerfile: Dockerfile
             imagename: micronaut-base
@@ -92,10 +88,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - project-dir: micronaut/micronaut-base
-            dockerfile: Dockerfile-native
-            imagename: micronaut-base-native
-            
           - project-dir: micronaut/micronaut-aot
             dockerfile: Dockerfile-native
             imagename: micronaut-base-native
