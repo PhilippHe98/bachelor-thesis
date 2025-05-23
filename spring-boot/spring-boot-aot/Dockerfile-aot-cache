@@ -1,0 +1,16 @@
+FROM bellsoft/liberica-runtime-container:jdk-24-cds-musl  AS builder
+WORKDIR /builder
+COPY ./build/libs/*.jar application.jar
+RUN java -Djarmode=tools -jar application.jar extract --layers --destination extracted
+
+FROM bellsoft/liberica-runtime-container:jdk-24-cds-musl
+WORKDIR /application
+COPY --from=builder /builder/extracted/dependencies/ ./
+COPY --from=builder /builder/extracted/spring-boot-loader/ ./
+COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
+COPY --from=builder /builder/extracted/application/ ./
+
+RUN java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -Dspring.context.exit=onRefresh -jar application.jar --spring.profiles.active=cds
+RUN java -Dspring.aot.enabled=true -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar application.jar
+
+ENTRYPOINT ["java","-Dspring.aot.enabled=true","-XX:AOTCache=app.aot","-jar","application.jar"]

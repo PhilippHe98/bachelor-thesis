@@ -15,4 +15,4 @@ COPY --from=builder /builder/extracted/spring-boot-loader/ ./
 COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
 COPY --from=builder /builder/extracted/application/ ./
 
-ENTRYPOINT ["java","-XX:CRaCCheckpointTo=/checkpoint","-jar","application.jar"]
+ENTRYPOINT ["java","-XX:CRaCCheckpointTo=/checkpoint","-Dspring.aot.enabled=true","-jar","application.jar"]

@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class CRaCHandler implements OrderedResource {
-    private static final Logger LOG = LoggerFactory.getLogger(CRaCHandler.class);
+public class RestoreLogger implements OrderedResource {
+    private static final Logger LOG = LoggerFactory.getLogger(RestoreLogger.class);
 
     @Override
     public void beforeCheckpoint(Context<? extends Resource> context) throws Exception {
