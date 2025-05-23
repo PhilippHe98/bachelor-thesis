@@ -20,7 +20,20 @@ spec:
       containers:
       - image: ghcr.io/philipphe98/bachelor-thesis/spring-boot-crac:main
         name: spring-boot-crac
+        # command:
+        # - java
+        # - -XX:CRaCRestoreFrom=/checkpoint
         imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            add:
+            - SYS_PTRACE
+            - CHECKPOINT_RESTORE
+          privileged: false
+        volumeMounts:
+        - name: crac-storage
+          mountPath: /checkpoint
         env:
         - name: JAVA_OPTS
           value: "-XX:+UseParallelGC -XX:MaxRAMPercentage=75"
@@ -43,6 +56,16 @@ spec:
             memory: "1Gi"
           requests:
             memory: "1Gi"
+      volumes:
+      - name: crac-storage
+        csi:
+          driver: file.csi.azure.com
+          volumeAttributes:
+            secretName: azure-secret
+            shareName: myfileshare
+            mountOptions: 'dir_mode=0777,file_mode=0777,cache=strict,actimeo=30,nosharesock,nobrl'
+      imagePullSecrets:
+      - name: regcred
 status: {}
 ---
 apiVersion: v1

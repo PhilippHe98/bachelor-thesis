@@ -1,5 +1,5 @@
 services:
-  db:
+  postgres:
     image: postgres
     restart: always
     # set shared memory limit when using docker-compose
@@ -17,16 +17,12 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
   app:
-    image: crac-image-restore:1.0
+    image: ghcr.io/philipphe98/bachelor-thesis/spring-boot-crac:main
     ports:
       - "8080:8080"
     cap_add:
       - CHECKPOINT_RESTORE
       - SYS_PTRACE
     restart: no
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-cds
-
     depends_on:
-      - db
+      - postgres

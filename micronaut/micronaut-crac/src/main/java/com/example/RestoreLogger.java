@@ -19,6 +19,6 @@ public class RestoreLogger implements OrderedResource {
     // https://crac.github.io/openjdk-builds/javadoc/api/jdk.management/jdk/crac/management/CRaCMXBean.html for uptime
     @Override
     public void afterRestore(Context<? extends Resource> context) throws Exception {
-        LOG.info("Application restored from CRaC checkpoint. Startup time since restore: {} ms", CRaCMXBean.getCRaCMXBean().getUptimeSinceRestore());
+        LOG.info("Application restored from CRaC checkpoint. JVM uptime time since restore: {} ms", CRaCMXBean.getCRaCMXBean().getUptimeSinceRestore());
     }
 }

@@ -32,11 +32,11 @@ spec:
           value: "#iM&rx]Fj3]Ah!g"
         livenessProbe:
           httpGet:
-            path: /actuator/health/liveness
+            path: /health/liveness
             port: 8080
         readinessProbe:
           httpGet:
-            path: /actuator/health/readiness
+            path: /health/readiness
             port: 8080
         resources:
           limits:
