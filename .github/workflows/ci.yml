@@ -90,7 +90,7 @@ jobs:
         include:
           - project-dir: micronaut/micronaut-aot
             dockerfile: Dockerfile-native
-            imagename: micronaut-base-native
+            imagename: micronaut-native
             
           - project-dir: spring-boot/spring-boot-native
             dockerfile: Dockerfile
