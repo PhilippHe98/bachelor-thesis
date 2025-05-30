@@ -20,9 +20,9 @@ spec:
       containers:
       - image: ghcr.io/philipphe98/bachelor-thesis/spring-boot-crac:main
         name: spring-boot-crac
-        command:
-        - java
-        - -XX:CRaCRestoreFrom=/checkpoint
+        # command:
+        # - java
+        # - -XX:CRaCRestoreFrom=/checkpoint
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false

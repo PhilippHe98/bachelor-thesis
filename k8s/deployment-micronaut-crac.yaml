@@ -20,9 +20,9 @@ spec:
       containers:
       - image: ghcr.io/philipphe98/bachelor-thesis/micronaut-crac:main
         name: micronaut-crac
-        command:
-        - java
-        - -XX:CRaCRestoreFrom=/micronaut-checkpoint
+        # command:
+        # - java
+        # - -XX:CRaCRestoreFrom=/checkpoint
         imagePullPolicy: Always
         securityContext:
           allowPrivilegeEscalation: false
@@ -33,7 +33,7 @@ spec:
           privileged: false
         volumeMounts:
         - name: crac-storage
-          mountPath: /micronaut-checkpoint
+          mountPath: /checkpoint
         env:
         - name: JAVA_OPTS
           value: "-XX:+UseParallelGC -XX:MaxRAMPercentage=75"
