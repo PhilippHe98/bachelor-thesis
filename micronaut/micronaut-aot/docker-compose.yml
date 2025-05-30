@@ -17,10 +17,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
   app:
-    image: test-native
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/philipphe98/bachelor-thesis/micronaut-native:main
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:

@@ -22,8 +22,6 @@ spec:
         name: micronaut-native
         imagePullPolicy: Always
         env:
-        - name: JAVA_OPTS
-          value: "-XX:+UseParallelGC -XX:MaxRAMPercentage=75"
         - name: JDBC_URL
           value: jdbc:postgresql://mypostgresph.postgres.database.azure.com:5432/postgres?sslmode=require
         - name: JDBC_USER

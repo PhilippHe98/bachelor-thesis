@@ -8,13 +8,12 @@ export const options = {
   ]
 };
 
+const url = 'http://4.255.105.123:80';
+let i = 1;
+let formData = JSON.stringify({ "description": "test" });
+let headers = { 'Content-Type': 'application/json' };
+
 export default () => {
-  const url = 'http://48.217.17.5:80';
-
-  let i = 0
-  let formData = JSON.stringify({ "description": "test" });
-  let headers = { 'Content-Type': 'application/json' };
-
   http.post(url + '/todo', formData, { headers: headers });
   sleep(1);
   http.get(url + '/todo/' + i++);
