@@ -15,4 +15,4 @@ out/
 .factorypath
 crac-files
 dump4.log
-bin/
+bin/*

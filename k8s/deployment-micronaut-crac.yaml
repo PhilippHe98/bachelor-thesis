@@ -31,9 +31,6 @@ spec:
             - SYS_PTRACE
             - CHECKPOINT_RESTORE
           privileged: false
-        volumeMounts:
-        - name: crac-storage
-          mountPath: /checkpoint
         env:
         - name: JAVA_OPTS
           value: "-XX:+UseParallelGC -XX:MaxRAMPercentage=75"
@@ -56,6 +53,9 @@ spec:
             memory: "1Gi"
           requests:
             memory: "1Gi"
+        volumeMounts:
+        - name: crac-storage
+          mountPath: /checkpoint
       volumes:
       - name: crac-storage
         csi:
